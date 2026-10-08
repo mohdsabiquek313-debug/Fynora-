@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fynora</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    color:#111;
+}
+
+header{
+    background:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+    box-shadow:0 2px 10px #ddd;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.header-buttons button{
+    border:0;
+    background:#111;
+    color:white;
+    padding:10px;
+    border-radius:10px;
+    margin-left:5px;
+}
+
+.hero{
+    margin:15px;
+    padding:35px 20px;
+    border-radius:20px;
+    background:#111;
+    color:white;
+}
+
+.hero h1{
+    font-size:34px;
+    margin:10px 0;
+}
+
+.hero p{
+    color:#ccc;
+}
+
+.hero button{
+    padding:12px 20px;
+    border:0;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+section{
+    padding:15px;
+}
+
+.category-box{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+}
+
+.category-box button{
+    border:1px solid #ddd;
+    background:white;
+    padding:10px 15px;
+    border-radius:20px;
+    white-space:nowrap;
+}
+
+#searchBox{
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:15px;
+}
+
+.product-container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.product{
+    background:white;
+    padding:10px;
+    border-radius:15px;
+    box-shadow:0 2px 10px #ddd;
+}
+
+.product-image{
+    position:relative;
+}
+
+.product img{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.heart{
+    position:absolute;
+    right:7px;
+    top:7px;
+    border:0;
+    background:white;
+    border-radius:50%;
+    width:32px;
+    height:32px;
+    font-size:18px;
+}
+
+.discount{
+    position:absolute;
+    left:7px;
+    top:7px;
+    background:red;
+    color:white;
+    padding:5px;
+    border-radius:6px;
+    font-size:10px;
+}
+
+.product h3{
+    font-size:15px;
+}
+
+.rating{
+    font-size:12px;
+}
+
+.old{
+    color:#999;
+    text-decoration:line-through;
+    margin:3px 0;
+}
+
+.price{
+    font-size:19px;
+    font-weight:bold;
+    margin:5px 0;
+}
+
+.add-btn,
+.details-btn{
+    width:100%;
+    padding:10px;
+    border:0;
+    border-radius:9px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.add-btn{
+    background:#111;
+    color:white;
+}
+
+.details-btn{
+    background:#eee;
+    color:#111;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#0008;
+    z-index:100;
+    padding:15px;
+    overflow-y:auto;
+}
+
+.box{
+    background:white;
+    max-width:450px;
+    margin:40px auto;
+    padding:20px;
+    border-radius:18px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.close{
+    border:0;
+    background:#eee;
+    border-radius:50%;
+    width:35px;
+    height:35px;
+}
+
+.cart-item{
+    padding:12px 0;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    justify-content:space-between;
+}
+
+.remove{
+    background:#ffe0e0;
+    border:0;
+    padding:7px;
+    border-radius:7px;
+}
+
+.total{
+    text-align:right;
+    font-size:20px;
+    font-weight:bold;
+    margin:18px 0;
+}
+
+.checkout-btn,
+.place-btn,
+.continue-btn,
+.buy-btn{
+    width:100%;
+    padding:13px;
+    background:#111;
+    color:white;
+    border:0;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.detail-image{
+    width:100%;
+    height:260px;
+    object-fit:cover;
+    border-radius:15px;
+    margin-top:15px;
+}
+
+.detail-price{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.detail-description{
+    color:#666;
+    line-height:1.5;
+}
+
+.quantity{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:18px 0;
+}
+
+.quantity button{
+    width:38px;
+    height:38px;
+    border:0;
+    background:#eee;
+    border-radius:8px;
+    font-size:20px;
+}
+
+.quantity span{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.form{
+    margin-bottom:14px;
+}
+
+.form label{
+    display:block;
+    margin-bottom:5px;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.form input,
+.form textarea,
+.form select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:9px;
+    font-size:14px;
+}
+
+.form textarea{
+    height:80px;
+}
+
+.empty{
+    text-align:center;
+    padding:25px;
+    color:#777;
+}
+
+.success{
+    text-align:center;
+}
+
+.success-icon{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:#dff5e5;
+    color:green;
+    font-size:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+}
+
+.order-id{
+    background:#f1f1f1;
+    padding:15px;
+    margin:20px 0;
+    border-radius:10px;
+}
+
+footer{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:30px 15px;
+    margin-top:25px;
+}
+
+footer p{
+    color:#aaa;
+}
+
+@media(max-width:380px){
+    .product img{
+        height:130px;
+    }
+
+    .hero h1{
+        font-size:29px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+<div class="logo">Fynora</div>
+
+<div class="header-buttons">
+
+<button onclick="openWishlist()">
+❤️ <span id="wishCount">0</span>
+</button>
+
+<button onclick="openCart()">
+🛒 <span id="cartCount">0</span>
+</button>
+
+</div>
+
+</header>
+
+
+<div class="hero">
+
+<p>WELCOME TO FYNORA</p>
+
+<h1>
+Discover What's<br>
+Trending 🔥
+</h1>
+
+<p>
+Cool gadgets, fashion and lifestyle products.
+</p>
+
+<button onclick="showProducts()">
+Shop Now
+</button>
+
+</div>
+
+
+<section>
+
+<h2>Shop Categories</h2>
+
+<div class="category-box">
+
+<button onclick="filterProducts('all')">All</button>
+
+<button onclick="filterProducts('gadgets')">
+📱 Gadgets
+</button>
+
+<button onclick="filterProducts('fashion')">
+👕 Fashion
+</button>
+
+<button onclick="filterProducts('home')">
+🏠 Home
+</button>
+
+</div>
+
+</section>
+
+
+<section>
+
+<input
+id="searchBox"
+type="text"
+placeholder="🔍 Search products..."
+onkeyup="searchProducts()">
+
+</section>
+
+
+<section id="products">
+
+<h2>🔥 Trending Products</h2>
+
+<div class="product-container">
+
+
+<!-- PRODUCT 1 -->
+
+<div class="product"
+data-category="gadgets"
+data-name="Bluetooth Speaker">
+
+<div class="product-image">
+
+<img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=600&q=80">
+
+<span class="discount">30% OFF</span>
+
+<button class="heart"
+onclick="toggleWish('Bluetooth Speaker',699,this)">
+♡
+</button>
+
+</div>
+
+<h3>Bluetooth Speaker</h3>
+
+<p class="rating">⭐⭐⭐⭐⭐</p>
+
+<p class="old">₹999</p>
+
+<p class="price">₹699</p>
+
+<button class="details-btn"
+onclick="showDetails('Bluetooth Speaker',699,'₹999','gadgets','https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=600&q=80','Portable Bluetooth speaker with clear sound and modern design.')">
+View Details
+</button>
+
+<button class="add-btn"
+onclick="addCart('Bluetooth Speaker',699)">
+Add to Cart
+</button>
+
+</div>
+
+
+<!-- PRODUCT 2 -->
+
+<div class="product"
+data-category="gadgets"
+data-name="Wireless Earbuds">
+
+<div class="product-image">
+
+<img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=600&q=80">
+
+<span class="discount">40% OFF</span>
+
+<button class="heart"
+onclick="toggleWish('Wireless Earbuds',899,this)">
+♡
+</button>
+
+</div>
+
+<h3>Wireless Earbuds</h3>
+
+<p class="rating">⭐⭐⭐⭐⭐</p>
+
+<p class="old">₹1499</p>
+
+<p class="price">₹899</p>
+
+<button class="details-btn"
+onclick="showDetails('Wireless Earbuds',899,'₹1499','gadgets','https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=600&q=80','Compact wireless earbuds with a comfortable everyday design.')">
+View Details
+</button>
+
+<button class="add-btn"
+onclick="addCart('Wireless Earbuds',899)">
+Add to Cart
+</button>
+
+</div>
+
+
+<!-- PRODUCT 3 -->
+
+<div class="product"
+data-category="gadgets"
+data-name="Smart Watch">
+
+<div class="product-image">
+
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80">
+
+<span class="discount">25% OFF</span>
+
+<button class="heart"
+onclick="toggleWish('Smart Watch',1499,this)">
+♡
+</button>
+
+</div>
+
+<h3>Smart Watch</h3>
+
+<p class="rating">⭐⭐⭐⭐</p>
+
+<p class="old">₹1999</p>
+
+<p class="price">₹1499</p>
+
+<button class="details-btn"
+onclick="showDetails('Smart Watch',1499,'₹1999','gadgets','https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80','Modern smartwatch design for everyday use.')">
+View Details
+</button>
+
+<button class="add-btn"
+onclick="addCart('Smart Watch',1499)">
+Add to Cart
+</button>
+
+</div>
+
+
+<!-- PRODUCT 4 -->
+
+<div class="product"
+data-category="fashion"
+data-name="Premium Sunglasses">
+
+<div class="product-image">
+
+<img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80">
+
+<span class="discount">35% OFF</span>
+
+<button class="heart"
+onclick="toggleWish('Premium Sunglasses',849,this)">
+♡
+</button>
+
+</div>
+
+<h3>Premium Sunglasses</h3>
+
+<p class="rating">⭐⭐⭐⭐⭐</p>
+
+<p class="old">₹1299</p>
+
+<p class="price">₹849</p>
+
+<button class="details-btn"
+onclick="showDetails('Premium Sunglasses',849,'₹1299','fashion','https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80','Stylish sunglasses with a clean and modern look.')">
+View Details
+</button>
+
+<button class="add-btn"
+onclick="addCart('Premium Sunglasses',849)">
+Add to Cart
+</button>
+
+</div>
+
+
+<!-- PRODUCT 5 -->
+
+<div class="product"
+data-category="home"
+data-name="Modern Desk Lamp">
+
+<div class="product-image">
+
+<img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=600&q=80">
+
+<span class="discount">20% OFF</span>
+
+<button class="heart"
+onclick="toggleWish('Modern Desk Lamp',799,this)">
+♡
+</button>
+
+</div>
+
+<h3>Modern Desk Lamp</h3>
+
+<p class="rating">⭐⭐⭐⭐</p>
+
+<p class="old">₹999</p>
+
+<p class="price">₹799</p>
+
+<button class="details-btn"
+onclick="showDetails('Modern Desk Lamp',799,'₹999','home','https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=600&q=80','Modern desk lamp for study and workspace use.')">
+View Details
+</button>
+
+<button class="add-btn"
+onclick="addCart('Modern Desk Lamp',799)">
+Add to Cart
+</button>
+
+</div>
+
+
+<!-- PRODUCT 6 -->
+
+<div class="product"
+data-category="fashion"
+data-name="Trendy Sneakers">
+
+<div class="product-image">
+
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80">
+
+<span class="discount">30% OFF</span>
+
+<button class="heart"
+onclick="toggleWish('Trendy Sneakers',1399,this)">
+♡
+</button>
+
+</div>
+
+<h3>Trendy Sneakers</h3>
+
+<p class="rating">⭐⭐⭐⭐⭐</p>
+
+<p class="old">₹1999</p>
+
+<p class="price">₹1399</p>
+
+<button class="details-btn"
+onclick="showDetails('Trendy Sneakers',1399,'₹1999','fashion','https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80','Trendy sneakers with a sporty everyday style.')">
+View Details
+</button>
+
+<button class="add-btn"
+onclick="addCart('Trendy Sneakers',1399)">
+Add to Cart
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PRODUCT DETAILS -->
+
+<div id="detailsModal" class="modal">
+
+<div class="box">
+
+<div class="top">
+
+<h2 id="detailName">
+Product
+</h2>
+
+<button class="close"
+onclick="closeDetails()">
+✕
+</button>
+
+</div>
+
+<img id="detailImage"
+class="detail-image"
+src="">
+
+<p class="rating">
+⭐⭐⭐⭐⭐
+</p>
+
+<p class="old" id="detailOld"></p>
+
+<p class="detail-price" id="detailPrice"></p>
+
+<p class="detail-description"
+id="detailDescription">
+</p>
+
+<div class="quantity">
+
+<button onclick="changeQuantity(-1)">
+−
+</button>
+
+<span id="quantity">
+1
+</span>
+
+<button onclick="changeQuantity(1)">
++
+</button>
+
+</div>
+
+<button class="add-btn"
+onclick="addDetailToCart()">
+🛒 Add to Cart
+</button>
+
+<br>
+
+<button class="buy-btn"
+onclick="buyNow()">
+⚡ Buy Now
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CART -->
+
+<div id="cartModal" class="modal">
+
+<div class="box">
+
+<div class="top">
+
+<h2>🛒 Your Cart</h2>
+
+<button class="close"
+onclick="closeCart()">
+✕
+</button>
+
+</div>
+
+<div id="cartItems"></div>
+
+<div class="total">
+Total: ₹<span id="cartTotal">0</span>
+</div>
+
+<button class="checkout-btn"
+onclick="checkout()">
+Proceed to Checkout
+</button>
+
+</div>
+
+</div>
+
+
+<!-- WISHLIST -->
+
+<div id="wishModal" class="modal">
+
+<div class="box">
+
+<div class="top">
+
+<h2>❤️ Wishlist</h2>
+
+<button class="close"
+onclick="closeWishlist()">
+✕
+</button>
+
+</div>
+
+<div id="wishItems"></div>
+
+</div>
+
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div id="checkoutModal" class="modal">
+
+<div class="box">
+
+<div class="top">
+
+<h2>📦 Checkout</h2>
+
+<button class="close"
+onclick="closeCheckout()">
+✕
+</button>
+
+</div>
+
+<div class="form">
+
+<label>Full Name</label>
+
+<input
+id="name"
+type="text"
+placeholder="Your name">
+
+</div>
+
+<div class="form">
+
+<label>Phone Number</label>
+
+<input
+id="phone"
+type="tel"
+placeholder="10 digit mobile number">
+
+</div>
+
+<div class="form">
+
+<label>Delivery Address</label>
+
+<textarea
+id="address"
+placeholder="House name, place, PIN code">
+</textarea>
+
+</div>
+
+<div class="form">
+
+<label>Payment Method</label>
+
+<select id="payment">
+
+<option>Cash on Delivery</option>
+
+<option>Online Payment</option>
+
+</select>
+
+</div>
+
+<div class="total">
+₹<span id="checkoutTotal">0</span>
+</div>
+
+<button class="place-btn"
+onclick="placeOrder()">
+Place Order 🚀
+</button>
+
+</div>
+
+</div>
+
+
+<!-- SUCCESS -->
+
+<div id="successModal" class="modal">
+
+<div class="box success">
+
+<div class="success-icon">
+✓
+</div>
+
+<h2>
+Order Confirmed! 🎉
+</h2>
+
+<p>
+Thank you for shopping with Fynora.
+</p>
+
+<div class="order-id">
+
+<p>Order ID</p>
+
+<h3 id="orderId">
+FYN-000000
+</h3>
+
+</div>
+
+<button class="continue-btn"
+onclick="closeSuccess()">
+Continue Shopping
+</button>
+
+</div>
+
+</div>
+
+
+<footer>
+
+<h2>Fynora</h2>
+
+<p>
+Trending Products • Gadgets • Lifestyle
+</p>
+
+<p>
+© 2026 Fynora
+</p>
+
+</footer>
+
+
+<script>
+
+var cart = [];
+var wishlist = [];
+
+var selectedProduct = {};
+var quantity = 1;
+
+
+function updateCart(){
+
+    document.getElementById("cartCount").innerText = cart.length;
+
+    var box = document.getElementById("cartItems");
+
+    box.innerHTML = "";
+
+    var total = 0;
+
+    if(cart.length === 0){
+
+        box.innerHTML =
+        '<div class="empty">Your cart is empty 🛒</div>';
+
+    }
+
+    cart.forEach(function(item,index){
+
+        total += item.price;
+
+        box.innerHTML +=
+        '<div class="cart-item">' +
+        '<span><b>'+item.name+'</b><br>₹'+item.price+'</span>' +
+        '<button class="remove" onclick="removeCart('+index+')">Remove</button>' +
+        '</div>';
+
+    });
+
+    document.getElementById("cartTotal").innerText = total;
+
+    document.getElementById("checkoutTotal").innerText = total;
+}
+
+
+function addCart(name,price){
+
+    cart.push({
+        name:name,
+        price:price
+    });
+
+    updateCart();
+
+    alert(name+" added to cart 🛒");
+}
+
+
+function removeCart(index){
+
+    cart.splice(index,1);
+
+    updateCart();
+}
+
+
+function openCart(){
+
+    updateCart();
+
+    document.getElementById("cartModal").style.display="block";
+}
+
+
+function closeCart(){
+
+    document.getElementById("cartModal").style.display="none";
+}
+
+
+function showDetails(name,price,old,category,image,description){
+
+    selectedProduct={
+        name:name,
+        price:price,
+        old:old,
+        image:image,
+        description:description
+    };
+
+    quantity=1;
+
+    document.getElementById("detailName").innerText=name;
+
+    document.getElementById("detailImage").src=image;
+
+    document.getElementById("detailOld").innerText=old;
+
+    document.getElementById("detailPrice").innerText="₹"+price;
+
+    document.getElementById("detailDescription").innerText=description;
+
+    document.getElementById("quantity").innerText=quantity;
+
+    document.getElementById("detailsModal").style.display="block";
+}
+
+
+function closeDetails(){
+
+    document.getElementById("detailsModal").style.display="none";
+}
+
+
+function changeQuantity(number){
+
+    quantity += number;
+
+    if(quantity < 1){
+        quantity=1;
+    }
+
+    document.getElementById("quantity").innerText=quantity;
+}
+
+
+function addDetailToCart(){
+
+    for(var i=0;i<quantity;i++){
+
+        cart.push({
+            name:selectedProduct.name,
+            price:selectedProduct.price
+        });
+
+    }
+
+    updateCart();
+
+    closeDetails();
+
+    alert(selectedProduct.name+" added to cart 🛒");
+}
+
+
+function buyNow(){
+
+    cart=[];
+
+    for(var i=0;i<quantity;i++){
+
+        cart.push({
+            name:selectedProduct.name,
+            price:selectedProduct.price
+        });
+
+    }
+
+    updateCart();
+
+    closeDetails();
+
+    document.getElementById("checkoutModal").style.display="block";
+}
+
+
+function checkout(){
+
+    if(cart.length===0){
+
+        alert("Your cart is empty.");
+
+        return;
+    }
+
+    closeCart();
+
+    document.getElementById("checkoutModal").style.display="block";
+}
+
+
+function closeCheckout(){
+
+    document.getElementById("checkoutModal").style.display="none";
+}
+
+
+function placeOrder(){
+
+    var name=document.getElementById("name").value.trim();
+
+    var phone=document.getElementById("phone").value.trim();
+
+    var address=document.getElementById("address").value.trim();
+
+
+    if(name==="" || phone==="" || address===""){
+
+        alert("Please fill all details.");
+
+        return;
+    }
+
+
+    if(!/^[0-9]{10}$/.test(phone)){
+
+        alert("Please enter a valid 10 digit phone number.");
+
+        return;
+    }
+
+
+    var number=
+    Math.floor(100000+Math.random()*900000);
+
+
+    document.getElementById("orderId").innerText=
+    "FYN-"+number;
+
+
+    closeCheckout();
+
+    document.getElementById("successModal").style.display="block";
+
+    cart=[];
+
+    updateCart();
+
+    document.getElementById("name").value="";
+
+    document.getElementById("phone").value="";
+
+    document.getElementById("address").value="";
+}
+
+
+function closeSuccess(){
+
+    document.getElementById("successModal").style.display="none";
+}
+
+
+function toggleWish(name,price,button){
+
+    var found=-1;
+
+    for(var i=0;i<wishlist.length;i++){
+
+        if(wishlist[i].name===name){
+
+            found=i;
+
+        }
+
+    }
+
+
+    if(found===-1){
+
+        wishlist.push({
+            name:name,
+            price:price
+        });
+
+        button.innerText="❤️";
+
+    }else{
+
+        wishlist.splice(found,1);
+
+        button.innerText="♡";
+    }
+
+    updateWishlist();
+}
+
+
+function updateWishlist(){
+
+    document.getElementById("wishCount").innerText=
+    wishlist.length;
+
+    var box=document.getElementById("wishItems");
+
+    box.innerHTML="";
+
+
+    if(wishlist.length===0){
+
+        box.innerHTML=
+        '<div class="empty">Your wishlist is empty ❤️</div>';
+
+        return;
+    }
+
+
+    wishlist.forEach(function(item,index){
+
+        box.innerHTML +=
+        '<div class="cart-item">' +
+        '<span><b>'+item.name+'</b><br>₹'+item.price+'</span>' +
+        '<button class="remove" onclick="removeWish('+index+')">Remove</button>' +
+        '</div>';
+
+    });
+}
+
+
+function removeWish(index){
+
+    wishlist.splice(index,1);
+
+    updateWishlist();
+
+    updateHearts();
+}
+
+
+function openWishlist(){
+
+    updateWishlist();
+
+    document.getElementById("wishModal").style.display="block";
+}
+
+
+function closeWishlist(){
+
+    document.getElementById("wishModal").style.display="none";
+}
+
+
+function updateHearts(){
+
+    var buttons=document.querySelectorAll(".heart");
+
+    buttons.forEach(function(button){
+
+        var product=button.closest(".product");
+
+        var name=product.getAttribute("data-name");
+
+        var found=wishlist.some(function(item){
+
+            return item.name===name;
+
+        });
+
+        button.innerText=found?"❤️":"♡";
+
+    });
+}
+
+
+function filterProducts(category){
+
+    var products=document.querySelectorAll(".product");
+
+    products.forEach(function(product){
+
+        if(
+            category==="all" ||
+            product.getAttribute("data-category")===category
+        ){
+
+            product.style.display="block";
+
+        }else{
+
+            product.style.display="none";
+
+        }
+
+    });
+}
+
+
+function searchProducts(){
+
+    var text=
+    document.getElementById("searchBox")
+    .value.toLowerCase();
+
+    var products=document.querySelectorAll(".product");
+
+    products.forEach(function(product){
+
+        var name=
+        product.getAttribute("data-name").toLowerCase();
+
+        if(name.includes(text)){
+
+            product.style.display="block";
+
+        }else{
+
+            product.style.display="none";
+
+        }
+
+    });
+}
+
+
+function showProducts(){
+
+    document.getElementById("products")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+}
+
+
+updateCart();
+
+updateWishlist();
+
+updateHearts();
+
+</script>
+
+</body>
+</html>
